@@ -3,9 +3,9 @@
 ## Summary
 
 Total test cases: 4
-Passed: 4
-Failed: 0
-Average score: 5.0/5
+Passed: 3
+Failed: 1
+Average score: 3.75/5
 
 ## Results
 
@@ -31,8 +31,8 @@ No. The forecast endpoint requires latitude and longitude. Latitude and longitud
 
 ### TC002 — Default hourly forecast length
 
-Status: **PASSED**
-Score: **5.0/5**
+Status: **FAILED**
+Score: **0.0/5**
 Risk: `incorrect_forecast_length`
 
 **Question:**
@@ -45,7 +45,7 @@ The default forecast length is 7 days. Seven days equals 168 hourly values.
 
 **Missing facts:**
 
-- None
+- The default forecast length is 10 days.
 
 ---
 
