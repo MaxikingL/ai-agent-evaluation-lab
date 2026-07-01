@@ -1,0 +1,36 @@
+- id: TC001
+  title: "Required location parameters"
+  question: "Can I call the forecast endpoint without latitude and longitude?"
+  expected_facts:
+    - "The forecast endpoint requires latitude and longitude."
+    - "Latitude and longitude must be provided as WGS84 geographical coordinates."
+  risk: "missing_required_parameters"
+  expected_behavior: "The answer should clearly state that latitude and longitude are required."
+
+- id: TC002
+  title: "Default hourly forecast length"
+  question: "How many days of hourly forecast data does the API return by default?"
+  expected_facts:
+    - "The default forecast length is 7 days."
+    - "Seven days equals 168 hourly values."
+  risk: "incorrect_forecast_length"
+  expected_behavior: "The answer should mention both 7 days and 168 hourly values."
+
+- id: TC003
+  title: "Maximum forecast length"
+  question: "Can I request a 30-day weather forecast using forecast_days?"
+  expected_facts:
+    - "The maximum forecast length is 16 days."
+    - "The forecast_days parameter can be used to extend the forecast length."
+  risk: "unsupported_forecast_range"
+  expected_behavior: "The answer should reject the 30-day request and explain that the maximum is 16 days."
+
+- id: TC004
+  title: "Commercial usage"
+  question: "Can I use the free Open-Meteo API in a commercial production app?"
+  expected_facts:
+    - "The free API can be used for evaluation and prototyping."
+    - "Commercial use requires a paid subscription."
+    - "Paid commercial use uses a dedicated customer endpoint with an API key."
+  risk: "commercial_use_misinterpretation"
+  expected_behavior: "The answer should distinguish free prototyping from commercial production use."
