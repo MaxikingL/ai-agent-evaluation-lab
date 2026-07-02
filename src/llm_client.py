@@ -1,11 +1,21 @@
+from openai import OpenAI
+
+from src.config import get_settings
+
+
 def get_agent_answer(test_case: dict, documentation: str) -> str:
-    """
-    Temporary mock LLM client.
+    settings = get_settings()
 
-    In the next step, this function will be replaced with a real LLM call.
-    For now, it returns predefined answers so we can test the evaluation pipeline.
-    """
+    if settings.llm_provider == "mock":
+        return get_mock_answer(test_case)
 
+    if settings.llm_provider == "openai":
+        return get_openai_answer(test_case, documentation)
+
+    raise ValueError(f"Unsupported LLM_PROVIDER: {settings.llm_provider}")
+
+
+def get_mock_answer(test_case: dict) -> str:
     test_id = test_case["id"]
 
     mock_answers = {
@@ -33,3 +43,45 @@ def get_agent_answer(test_case: dict, documentation: str) -> str:
         test_id,
         "I do not have enough information to answer this question."
     )
+
+
+def get_openai_answer(test_case: dict, documentation: str) -> str:
+    settings = get_settings()
+
+    if not settings.openai_api_key:
+        raise ValueError(
+            "OPENAI_API_KEY is missing. Add it to your .env file or use LLM_PROVIDER=mock."
+        )
+
+    client = OpenAI(api_key=settings.openai_api_key)
+
+    prompt = build_prompt(test_case, documentation)
+
+    response = client.responses.create(
+        model=settings.openai_model,
+        input=prompt,
+    )
+
+    return response.output_text
+
+
+def build_prompt(test_case: dict, documentation: str) -> str:
+    return f"""
+You are a technical support AI assistant.
+
+Answer the user's question using only the documentation below.
+
+Rules:
+- Use only facts from the documentation.
+- If the documentation does not contain the answer, say: "I do not have enough information in the documentation."
+- Do not invent parameters, limits, pricing, or usage rules.
+- Keep the answer concise and factual.
+
+Documentation:
+\"\"\"
+{documentation}
+\"\"\"
+
+User question:
+{test_case["question"]}
+""".strip()

@@ -39,15 +39,19 @@ def generate_markdown_report(results: list[dict], output_path: str) -> None:
         lines.append(f"Status: **{status}**")
         lines.append(f"Score: **{result['score']}/5**")
         lines.append(f"Risk: `{result['risk']}`")
+        lines.append(f"Evaluation method: `{result.get('evaluation_method', 'unknown')}`")
         lines.append("")
+
         lines.append("**Question:**")
         lines.append("")
         lines.append(result["question"])
         lines.append("")
+
         lines.append("**Agent answer:**")
         lines.append("")
         lines.append(result["answer"])
         lines.append("")
+
         lines.append("**Missing facts:**")
         lines.append("")
 
@@ -57,6 +61,10 @@ def generate_markdown_report(results: list[dict], output_path: str) -> None:
         else:
             lines.append("- None")
 
+        lines.append("")
+        lines.append("**Evaluator comment:**")
+        lines.append("")
+        lines.append(result.get("comment", "No comment provided."))
         lines.append("")
         lines.append("---")
         lines.append("")
