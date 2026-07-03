@@ -29,6 +29,48 @@ def evaluate_answer_rule_based(test_case: dict, answer: str) -> dict:
     expected_facts = test_case.get("expected_facts", [])
     answer_lower = answer.lower()
 
+def evaluate_answer_rule_based(test_case: dict, answer: str) -> dict:
+    expected_facts = test_case.get("expected_facts", [])
+    answer_lower = answer.lower()
+
+    expected_behavior = test_case.get("expected_behavior")
+
+    if expected_behavior == "not_enough_information":
+        refusal_phrases = [
+            "i do not have enough information",
+            "not enough information",
+            "documentation does not contain",
+            "not specified in the documentation",
+            "not mentioned in the documentation",
+            "no information in the documentation",
+        ]
+
+        passed = any(phrase in answer_lower for phrase in refusal_phrases)
+
+        return {
+            "test_id": test_case["id"],
+            "title": test_case.get("title", ""),
+            "question": test_case["question"],
+            "risk": test_case.get("risk", ""),
+            "answer": answer,
+            "score": 5.0 if passed else 0.0,
+            "passed": passed,
+            "grounded": passed,
+            "hallucination_detected": not passed,
+            "missing_facts": [] if passed else expected_facts,
+            "comment": (
+                "The answer correctly avoids hallucination and states that the documentation does not provide enough information."
+                if passed
+                else "The answer does not clearly state that the documentation lacks this information."
+            ),
+            "evaluation_method": "rule_based_behavior_check",
+        }
+
+    missing_facts = []
+
+    for fact in expected_facts:
+        if fact.lower() not in answer_lower:
+            missing_facts.append(fact)
     missing_facts = []
 
     for fact in expected_facts:

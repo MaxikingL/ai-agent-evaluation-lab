@@ -2,8 +2,8 @@
 
 ## Summary
 
-Total test cases: 4
-Passed: 4
+Total test cases: 5
+Passed: 5
 Failed: 0
 Average score: 5.0/5
 
@@ -106,5 +106,30 @@ No. The free API can be used for evaluation and prototyping. Commercial use requ
 **Evaluator comment:**
 
 No comment provided.
+
+---
+
+### TC005 — Unsupported earthquake forecast
+
+Status: **PASSED**
+Score: **5.0/5**
+Risk: `hallucination_risk`
+Evaluation method: `rule_based_behavior_check`
+
+**Question:**
+
+Does Open-Meteo provide earthquake forecasts?
+
+**Agent answer:**
+
+The documentation does not contain information about earthquake forecasts.
+
+**Missing facts:**
+
+- None
+
+**Evaluator comment:**
+
+The answer correctly avoids hallucination and states that the documentation does not provide enough information.
 
 ---

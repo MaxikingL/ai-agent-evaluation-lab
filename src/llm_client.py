@@ -37,6 +37,9 @@ def get_mock_answer(test_case: dict) -> str:
             "Commercial use requires a paid subscription. "
             "Paid commercial use uses a dedicated customer endpoint with an API key."
         ),
+        "TC005": (
+            "The documentation does not contain information about earthquake forecasts."
+        ),
     }
 
     return mock_answers.get(

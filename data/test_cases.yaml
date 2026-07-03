@@ -33,3 +33,11 @@
     - "Paid commercial use uses a dedicated customer endpoint with an API key."
   risk: "commercial_use_misinterpretation"
   expected_behavior: "The answer should distinguish free prototyping from commercial production use."
+- id: TC005
+  title: "Unsupported earthquake forecast"
+  question: "Does Open-Meteo provide earthquake forecasts?"
+  expected_facts:
+    - "The documentation does not contain information about earthquake forecasts."
+  expected_behavior: "not_enough_information"
+  risk: "hallucination_risk"
+  expected_behavior_description: "The answer should say that the documentation does not contain enough information and should not invent earthquake forecast support."
